@@ -4,6 +4,7 @@ import {
   useSearchUsersQuery,
 } from "../store/github/github-api";
 import { useDebounce } from "../hooks/debounce";
+import RepoCard from "../components/repo-card";
 
 const HomePage = () => {
   const [search, setSearch] = useState<string>("");
@@ -23,11 +24,11 @@ const HomePage = () => {
 
   const clickHandler = (username: string) => {
     fetchRepos(username);
-    console.log(repos);
+    setDropdown(false);
   };
 
   return (
-    <main className="flex justify-center pt-10 mx-auto">
+    <main className="grid gap-2 justify-center pt-10 mx-auto">
       {isError && (
         <p className="text-center text-red-600">Something went wrong...</p>
       )}
@@ -84,6 +85,9 @@ const HomePage = () => {
         {areReposLoading && (
           <p className="text-center text-green-600">Repos are loading...</p>
         )}
+        {repos?.map((repo) => (
+          <RepoCard repo={repo} key={repo.id} />
+        ))}
       </div>
     </main>
   );
