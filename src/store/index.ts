@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { githubApi } from "./github/github-api";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { githubReducer } from "./github/github.slice";
+import { localeStorageMiddleware } from "./github/local-storage-middleware";
 
 export const store = configureStore({
   reducer: {
@@ -9,7 +10,10 @@ export const store = configureStore({
     github: githubReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(githubApi.middleware),
+    getDefaultMiddleware().concat(
+      githubApi.middleware,
+      localeStorageMiddleware
+    ),
 });
 
 setupListeners(store.dispatch);
