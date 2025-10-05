@@ -19,8 +19,10 @@ const HomePage = () => {
     useLazyGetUserReposQuery();
 
   useEffect(() => {
-    setDropdown(search.length > 3 && data?.length! > 0);
-  }, [debounced, data]);
+    if (data) {
+      setDropdown(search.length > 3 && data.length > 0);
+    }
+  }, [search, data]);
 
   const clickHandler = (username: string) => {
     fetchRepos(username);
